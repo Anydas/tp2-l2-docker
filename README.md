@@ -1,6 +1,6 @@
-# TP Docker — Bases (1h30)
+# TP Docker — Bases
 
-Ce TP d'une durée d'environ 1h30 couvre les bases de Docker : commandes de base, exécution avec `docker run`, et orchestration simple avec `docker compose`.
+Ce TP d'une durée d'environ 3h couvre les bases de Docker : commandes de base, exécution avec `docker run`, et orchestration simple avec `docker compose`.
 
 **Objectifs**
 - Comprendre et utiliser les commandes Docker de base (`ps`, `images`, `volume`, `logs`, `stats`).

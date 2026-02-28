@@ -35,27 +35,39 @@ Puis appuyer sur appliquer.
 
 Executer :
 ```bash
+# creation d'un conteneur ngninx
 docker run -d --name tp-nginx nginx:alpine
+# lister les conteneurs
 docker ps
 docker ps -a
+# lister les images
 docker images
+# lister les volumes
 docker volume ls
 ```
 Questions : différence entre `docker ps` et `docker ps -a` ? Trouver un IMAGE ID.
 
 ### Exercice A2 — Statistiques & logs
 ```bash
+# afficher les stats d'utilisation des conteneurs
 docker stats tp-nginx
+# acceder aux logs d'un conteneur
 docker logs tp-nginx
+# stopper un conteneur
 docker stop tp-nginx
+# supprimer un conteneur
 docker rm tp-nginx
 ```
 
 ### Exercice A3 — Volumes
 ```bash
+# creer un volume
 docker volume create tp-data
+# lancer un conteneur en associant un volume
 docker run -d --name tp-busybox -v tp-data:/data busybox sleep 300
+# executer une commande dans un conteneur
 docker exec tp-busybox sh -c "echo hello > /data/hello.txt && ls -l /data"
+# supprimer en conteneur
 docker rm -f tp-busybox
 ```
 Question : où sont stockés les volumes sur l’hôte ? (voir `docker info`).
@@ -63,10 +75,11 @@ Question : où sont stockés les volumes sur l’hôte ? (voir `docker info`).
 ## Partie B — `docker run` et exécution (30 min)
 
 ### Exercice B1 — Run simple web
-```bash
-docker run -d --name web-demo -p 8080:80 nginx:alpine
-```
-Ouvrir `http://localhost:8080` pour vérifier que le serveur web est bien actif(page par defaut de nginx).
+
+Deployer un conteneur nginx en version 1.28 (aidez vous du docker hub pour trouver la bonne image). Le conteneur devra s'appeler web-demo et s'executer sur le port 9090.
+Le conteneur devra s'executer en mode détaché.
+
+Ouvrir `http://localhost:9090` pour vérifier que le serveur web est bien actif(page par defaut de nginx).
 
 ### Exercice B2 — Variables d'environnement et volumes
 
@@ -89,8 +102,9 @@ docker volume rm tp-data || true
 
 ### Exercice C1 — Commande de base d'un docker-compose
 
-Fichier `docker-compose.yml` fourni (web + redis).
+A l'aide du fichier `docker-compose.yml` fourni (web + redis), executer les commandes suivantes :
 ```bash
+# démarrage du docker compose
 docker compose up -d
 docker compose ps
 ```
@@ -98,8 +112,18 @@ Ouvrir `http://localhost:8082` pour vérifier que le serveur web est bien actif 
 
 ### Exercice C2 — logs
 ```bash
-docker compose logs --tail=50 --follow
+# accès aux logs
+docker compose logs --tail=50 --follow nom_conteneur
+# arrêt du compose
 docker compose down
+```
+
+Nettoyage
+```bash
+docker compose down --volumes
+docker rm -f $(docker ps -aq) || true
+docker rmi $(docker images -q) || true
+docker volume prune -f
 ```
 
 ### Exercice C3 - Création d'un docker compose

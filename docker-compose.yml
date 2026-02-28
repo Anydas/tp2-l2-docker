@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  web:
+    image: nginx:alpine
+    ports:
+      - "8082:80"
+    volumes:
+      - ./www:/usr/share/nginx/html:ro
+  redis:
+    image: redis:alpine
